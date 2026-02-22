@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Through Time</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            overflow: hidden;
+        }
+        h1, h2, .title-font {
+            font-family: 'Cinzel', serif;
+        }
+        .story-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Background Animation */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: transparent;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: var(--opacity); transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        /* Card Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        /* Transitions */
+        .fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .fade-out {
+            animation: fadeOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* Button Hover Effect */
+        .choice-btn {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .choice-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -5px rgba(76, 29, 149, 0.4);
+        }
+
+        /* Stat Bar Animation */
+        .stat-fill {
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Author styling */
+        .author-credit {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.2em;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 h-screen w-screen flex items-center justify-center relative text-slate-800">
+
+    <!-- Dynamic Background Stars -->
+    <div id="stars-container" class="stars"></div>
+
+    <!-- Author Credit - Top -->
+    <div class="absolute top-6 left-0 w-full text-center z-20">
+        <p class="author-credit text-white/60 text-sm uppercase tracking-widest">
+            A Novel By <span class="text-white/90 font-semibold">Abiud Kipkemboi</span>
+        </p>
+    </div>
+
+    <!-- Main Game Container -->
+    <main id="game-container" class="relative z-10 w-full max-w-3xl px-4">
+        
+        <!-- The Card -->
+        <div class="glass-card rounded-3xl p-8 md:p-12 min-h-[600px] flex flex-col justify-between relative overflow-hidden transition-all duration-500">
+            
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"></div>
+            <div class="absolute -top-20 -right-20 w-64 h-64 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+            <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+
+            <!-- Header: Title & Stats -->
+            <header class="relative z-20 mb-8 border-b border-slate-200 pb-6">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-900 to-purple-800 tracking-wider text-center md:text-left">
+                        Love Through Time
+                    </h1>
+                    
+                    <!-- Stats Panel -->
+                    <div class="flex gap-6 bg-white/50 px-6 py-3 rounded-full shadow-sm border border-white/60 backdrop-blur-sm">
+                        <!-- Affection -->
+                        <div class="flex flex-col items-center w-20 group">
+                            <div class="flex items-center gap-1 text-pink-600 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="text-xs font-bold uppercase tracking-wider">Love</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                                <div id="stat-affection" class="stat-fill h-full bg-gradient-to-r from-pink-400 to-rose-500 w-1/2"></div>
+                            </div>
+                        </div>
+
+                        <!-- Trust -->
+                        <div class="flex flex-col items-center w-20 group">
+                            <div class="flex items-center gap-1 text-blue-600 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="text-xs font-bold uppercase tracking-wider">Trust</span>
+                            </div>
+                            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                                <div id="stat-trust" class="stat-fill h-full bg-gradient-to-r from-blue-400 to-indigo-500 w-1/2"></div>
+                            </div>
+                        </div>
+
+                        <!-- Chapter -->
+                        <div class="flex flex-col items-center justify-center pl-4 border-l border-slate-300">
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Chapter</span>
+                            <span id="chapter-display" class="text-xl font-bold text-slate-700 title-font">1</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Game Content Area -->
+            <div id="content-area" class="flex-grow flex flex-col items-center justify-center relative z-20">
+                
+                <!-- Scene Image / Avatar -->
+                <div id="visual-container" class="mb-8 relative w-48 h-48 md:w-56 md:h-56 transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-indigo-200 to-purple-200 rounded-full animate-pulse blur-xl opacity-50"></div>
+                    <img id="character-avatar" src="" alt="Character" class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl relative z-10 transition-transform duration-700 hover:scale-105">
+                    <!-- Dialogue Indicator -->
+                    <div id="typing-indicator" class="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-lg hidden">
+                        <div class="flex gap-1">
+                            <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Area -->
+                <div class="w-full text-center mb-8">
+                    <h2 id="character-name" class="text-xl font-bold text-indigo-900 mb-3 title-font tracking-wide"></h2>
+                    <div class="relative min-h-[120px] flex items-center justify-center">
+                        <p id="story-text" class="story-font text-lg md:text-xl leading-relaxed text-slate-700 italic"></p>
+                    </div>
+                </div>
+
+                <!-- Choices Area -->
+                <div id="choices-container" class="w-full grid grid-cols-1 gap-4 max-w-lg mx-auto">
+                    <!-- Buttons injected by JS -->
+                </div>
+
+                <!-- Restart Screen (Hidden by default) -->
+                <div id="end-screen" class="hidden absolute inset-0 bg-white/95 z-50 flex-col items-center justify-center text-center p-8 rounded-2xl fade-in">
+                    <h2 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4 title-font">The End</h2>
+                    <p id="end-title" class="text-2xl font-serif text-slate-800 mb-6"></p>
+                    <p id="end-message" class="text-slate-600 mb-8 max-w-md story-font"></p>
+                    
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-xs mb-8 text-sm text-slate-500 bg-slate-50 p-4 rounded-xl">
+                        <div>Final Affection: <span id="final-affection" class="font-bold text-pink-600"></span></div>
+                        <div>Final Trust: <span id="final-trust" class="font-bold text-blue-600"></span></div>
+                    </div>
+
+                    <button onclick="game.restart()" class="px-8 py-3 bg-slate-900 text-white rounded-full font-bold shadow-lg hover:bg-slate-800 hover:scale-105 transition-all flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Play Again
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Author Credit - Bottom -->
+        <div class="text-center mt-6 pb-4">
+            <p class="author-credit text-white/50 text-xs uppercase tracking-widest">
+                Created With Love By <span class="text-white/80 font-semibold">Abiud Kipkemboi</span>
+            </p>
+            <p class="text-white/30 text-[10px] mt-1">
+                &copy; 2023 Love Through Time Interactive Novel
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // --- Game Data ---
+        const storyData = {
+            start: {
+                id: 'start',
+                chapter: 1,
+                text: "The antique shop bell chimes as you step inside. Dust motes dance in the afternoon sun. A handsome stranger stands by the counter, holding a pocket watch that looks eerily familiar. He looks up, and his eyes widen in recognition—or is it shock?",
+                character: "The Stranger",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "Approach him cautiously", next: 'approach', effect: { trust: 10, affection: 0 } },
+                    { text: "Smile and ask about the watch", next: 'ask_watch', effect: { trust: 0, affection: 10 } },
+                    { text: "Pretend you didn't see him", next: 'ignore', effect: { trust: -10, affection: -5 } }
+                ]
+            },
+            approach: {
+                id: 'approach',
+                chapter: 1,
+                text: "You walk slowly towards him. The floorboards creak under your feet. 'It can't be...' he whispers, closing the watch with a snap. 'Do you know what year this is?'",
+                character: "The Stranger",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "'2023. Why do you ask?'", next: 'reveal_future', effect: { trust: 10, affection: 0 } },
+                    { text: "'Are you feeling okay?'", next: 'concern', effect: { trust: 5, affection: 5 } }
+                ]
+            },
+            ask_watch: {
+                id: 'ask_watch',
+                chapter: 1,
+                text: "He seems startled by your voice, then relaxes slightly. 'This?' He holds it up. 'It was supposed to bring me to 1920. But the coordinates... they seem to have locked onto you instead.'",
+                character: "The Stranger",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "Laugh, assuming it's a joke", next: 'laugh_joke', effect: { trust: -5, affection: 5 } },
+                    { text: "Ask him to explain more", next: 'explain_time', effect: { trust: 10, affection: 0 } }
+                ]
+            },
+            ignore: {
+                id: 'ignore',
+                chapter: 1,
+                text: "You turn to look at a shelf of old books, but you feel his gaze burning into your back. Suddenly, he is beside you. 'Please,' he says urgently. 'I don't have much time. The watch is reacting to you.'",
+                character: "The Stranger",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "Step back, feeling threatened", next: 'threatened', effect: { trust: -10, affection: 0 } },
+                    { text: "Hear him out", next: 'hear_out', effect: { trust: 5, affection: 5 } }
+                ]
+            },
+            // Chapter 2 Branching
+            reveal_future: {
+                id: 'reveal_future',
+                chapter: 2,
+                text: "He sighs, a look of profound sadness crossing his face. 'I am from 1887. I built this watch to save my sister. But every time I travel, I lose a piece of my memory. I am starting to forget her face.'",
+                character: "Elias",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "Offer to help him find records", next: 'help_records', effect: { trust: 15, affection: 5 } },
+                    { text: "Hold his hand to comfort him", next: 'comfort_touch', effect: { trust: 5, affection: 15 } }
+                ]
+            },
+            concern: {
+                id: 'concern',
+                chapter: 2,
+                text: "He smiles weakly. 'I am Elias. And I am lost. Not just in time, but in purpose. The watch brought me here for a reason. I believe it brought me to you.'",
+                character: "Elias",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "'Why me?'", next: 'why_me', effect: { trust: 10, affection: 10 } },
+                    { text: "'You need to sit down'", next: 'sit_down', effect: { trust: 10, affection: 0 } }
+                ]
+            },
+            laugh_joke: {
+                id: 'laugh_joke',
+                chapter: 2,
+                text: "He doesn't laugh. Instead, he touches the watch, and the room around you seems to shimmer, the colors fading to sepia for a split second. 'Does this feel like a joke?' he asks quietly.",
+                character: "Elias",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "Apologize for doubting him", next: 'apologize', effect: { trust: 10, affection: 5 } },
+                    { text: "Touch the watch", next: 'touch_watch', effect: { trust: 0, affection: 10 } }
+                ]
+            },
+            explain_time: {
+                id: 'explain_time',
+                chapter: 2,
+                text: "'Time is a river,' he explains, 'but this watch lets me swim against the current. However, every ripple I create changes the shore. I am afraid I have changed something crucial by meeting you.'",
+                character: "Elias",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "'Then we must fix it together'", next: 'fix_together', effect: { trust: 20, affection: 10 } },
+                    { text: "'You should go back immediately'", next: 'go_back', effect: { trust: 10, affection: -10 } }
+                ]
+            },
+            threatened: {
+                id: 'threatened',
+                chapter: 2,
+                text: "He raises his hands in surrender. 'I mean no harm. Please. I just need to know... in your time, is there a cure for Scarlet Fever? My sister... she is dying in my time.'",
+                character: "Elias",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "Tell him about Penicillin", next: 'tell_medicine', effect: { trust: 20, affection: 0 } },
+                    { text: "Refuse to alter history", next: 'refuse_history', effect: { trust: -20, affection: -10 } }
+                ]
+            },
+            hear_out: {
+                id: 'hear_out',
+                chapter: 2,
+                text: "'I saw you in a dream,' he admits, his cheeks flushing. 'Before I even built the watch. You were standing under a clock tower, and you told me not to be afraid.'",
+                character: "Elias",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+                choices: [
+                    { text: "'I'm scared too'", next: 'both_scared', effect: { trust: 10, affection: 15 } },
+                    { text: "'Dreams are just dreams'", next: 'just_dreams', effect: { trust: -5, affection: 0 } }
+                ]
+            },
+            
+            // Chapter 3 (Convergence)
+            help_records: {
+                id: 'help_records',
+                chapter: 3,
+                text: "You take him to the l
